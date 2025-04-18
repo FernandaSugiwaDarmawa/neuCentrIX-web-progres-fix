@@ -21,7 +21,6 @@ class DatabaseSeeder extends Seeder
             'email' => 'ncxtimur@gmail.com',
             'password' => bcrypt('Sayasatpol123'),
             'role' => 'super_user',
-            'site_id' => 1,
         ]);
 
 
