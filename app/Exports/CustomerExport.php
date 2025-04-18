@@ -3,26 +3,12 @@
 namespace App\Exports;
 
 use App\Models\Customer;
-use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\WithHeadings;
+use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Concerns\FromView;
 
-class CustomerExport implements FromCollection, WithHeadings
+class CustomerExport implements FromView
 {
-    /**
-    * @return \Illuminate\Support\Collection
-    */
-
-    public function headings(): array
-    {
-        return [
-            'LABEL RACK', 'NO FISIK RACK', 'Kota', 'Lokasi', 'Nama Customer',
-            'Jumlah Layanan', 'Jenis Layanan', 'Sales Channel', 'Status Bisnis',
-            'Status Layanan', 'No Order', 'Dokumen Pendukung', 'Tanggal Aktivasi',
-            'Power Source', 'Power Rack', 'Connectivity', 'Nama Switch/OTB', 'VLAN', 'Port',
-            'Others', 'AM Telkom', 'Status'
-        ];
-    }
-    public function collection()
+    public function view(): View
     {
         if (auth()->user()->role === 'super_user') {
             $customers = Customer::all();
@@ -30,6 +16,9 @@ class CustomerExport implements FromCollection, WithHeadings
             $customers = Customer::where('site_id', auth()->user()->site_id)->get();
         }
 
-        return $customers;
+        return view('table', [
+            'customers' => $customers
+        ]);
     }
 }
+

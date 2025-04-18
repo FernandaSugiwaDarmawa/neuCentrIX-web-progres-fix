@@ -21,7 +21,7 @@
     <!-- Navbar -->
     <div class="w-full bg-red-600 shadow-md flex justify-between items-center py-4 px-6 fixed top-0 left-0 right-0 z-50">
         <h1 class="text-xl font-bold text-white">Portal Pelanggan Mainvest</h1>
-        
+
         <!-- Dropdown Profil -->
         <div class="relative ml-auto">
             <button id="profileButton" class="text-white text-sm font-semibold focus:outline-none">
@@ -85,10 +85,10 @@
                             <th class="px-4 py-2">Nama Switch/OTB</th>
                             <th class="px-4 py-2">VLAN</th>
                             <th class="px-4 py-2">Port</th>
-                            <th class="px-4 py-2">Others</th>
                             <th class="px-4 py-2">AM Telkom</th>
                             <th class="px-4 py-2">Status</th>
                             <th class="px-4 py-2">Nonaktif Sejak</th>
+                            <th class="px-4 py-2">Others</th>
                             <th class="px-4 py-2">Aksi</th>
                         </tr>
                     </thead>
@@ -115,10 +115,10 @@
                             <td class="px-4 py-2">{{ $customer->nama_switch_otb }}</td>
                             <td class="px-4 py-2">{{ $customer->vlan }}</td>
                             <td class="px-4 py-2">{{ $customer->port }}</td>
-                            <td class="px-4 py-2">{{ $customer->Others }}</td>
                             <td class="px-4 py-2">{{ $customer->am_telkom }}</td>
                             <td class="px-4 py-2">{{ $customer->status }}</td>
                             <td class="px-4 py-2">{{ $customer->nonaktif_sejak ?? '-' }}</td>
+                            <td class="px-4 py-2">{{ $customer->Others }}</td>
                             <td class="px-4 py-2 space-x-2">
                                 <form action="{{ route('customer.destroy', $customer->id) }}" method="POST" onsubmit="return confirm('Yakin ingin hapus data ini?')" class="inline-block">
                                     @csrf
