@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\CustomerExport;
 
 class CustomerController extends Controller
 {
@@ -85,67 +87,7 @@ class CustomerController extends Controller
 
     public function export()
     {
-        if (auth()->user()->role === 'super_user') {
-            $customers = Customer::all();
-        } else {
-            $customers = Customer::where('site_id', auth()->user()->site_id)->get();
-        }
-
-        $filename = 'customers.csv';
-
-        $headers = [
-            "Content-type"        => "text/csv",
-            "Content-Disposition" => "attachment; filename=$filename",
-            "Pragma"              => "no-cache",
-            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
-            "Expires"             => "0"
-        ];
-
-        $columns = [
-            'LABEL RACK', 'NO FISIK RACK', 'Kota', 'Lokasi', 'Nama Customer',
-            'Jumlah Layanan', 'Jenis Layanan', 'Sales Channel', 'Status Bisnis',
-            'Status Layanan', 'No Order', 'Dokumen Pendukung', 'Tanggal Aktivasi',
-            'Power Source', 'Power Rack', 'Connectivity', 'Nama Switch/OTB', 'VLAN', 'Port',
-            'Others', 'AM Telkom', 'Status'
-        ];
-
-        $callback = function () use ($customers, $columns) {
-            $file = fopen('php://output', 'w');
-            fputcsv($file, $columns);
-
-            foreach ($customers as $cust) {
-                $row = [
-                    $cust->label_rack,
-                    $cust->no_fisik_rack,
-                    $cust->kota,
-                    $cust->lokasi,
-                    $cust->nama_customer,
-                    $cust->jumlah_layanan,
-                    $cust->jenis_layanan,
-                    $cust->sales_channel,
-                    $cust->status_bisnis,
-                    $cust->status_layanan,
-                    $cust->no_order,
-                    $cust->dokumen_pendukung,
-                    $cust->tanggal_aktivasi,
-                    $cust->power_source,
-                    $cust->power_rack,
-                    $cust->connectivity,
-                    $cust->ip,
-                    $cust->vlan,
-                    $cust->port,
-                    $cust->others,
-                    $cust->am_telkom,
-                    $cust->status === 'nonaktif' ? 'NONAKTIF' : 'AKTIF'
-                ];
-
-                fputcsv($file, $row);
-            }
-
-            fclose($file);
-        };
-
-        return response()->stream($callback, 200, $headers);
+        return Excel::download(new CustomerExport, 'Customer.xlsx');
     }
 
     public function hapusOtomatisNonaktif()
