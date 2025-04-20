@@ -15,14 +15,14 @@
     <!-- Navbar -->
     <div class="w-full bg-red-600 shadow-md py-4 fixed top-0 left-0 right-0">
         <div class="max-w-7xl mx-auto px-6 flex items-center justify-center">
-            <h1 class="text-xl sm:text-2xl font-bold text-white text-center">Portal Pelanggan Mainvest</h1>
+            <h1 class="text-xl sm:text-2xl font-bold text-white text-center">Portal Pelanggan Manivest</h1>
         </div>
     </div>
 
     <!-- Welcome Content -->
     <div class="w-full max-w-4xl mt-28"> <!-- Memberikan margin top untuk menghindari navbar -->
         <div class="bg-white p-16 shadow-lg rounded-lg text-center">
-            <h2 class="text-4xl font-bold text-gray-800">Selamat Datang di Data Mainvest Customer</h2>
+            <h2 class="text-4xl font-bold text-gray-800">Selamat Datang di Data Manivest Customer</h2>
             <p class="mt-4 text-gray-600 text-lg">Sistem informasi untuk mengelola data pelanggan dengan mudah dan efisien.</p>
             
             <div class="mt-8 flex justify-center space-x-6">

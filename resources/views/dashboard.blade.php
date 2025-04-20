@@ -20,7 +20,7 @@
 
     <!-- Navbar -->
     <div class="w-full bg-red-600 shadow-md flex justify-between items-center py-4 px-6 fixed top-0 left-0 right-0 z-50">
-        <h1 class="text-xl font-bold text-white">Portal Pelanggan Mainvest</h1>
+        <h1 class="text-xl font-bold text-white">Portal Pelanggan Manivest</h1>
 
         <!-- Dropdown Profil -->
         <div class="relative ml-auto">
@@ -43,7 +43,9 @@
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold text-gray-800">Data Customer</h2>
                 <div class="flex gap-4">
-                    <a href="{{ route('customer.create') }}" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Tambah Data</a>
+                    @if(Auth::user()->role !== 'viewer')
+                        <a href="{{ route('customer.create') }}" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Tambah Data</a>
+                    @endif
                     <a href="{{ route('customer.export') }}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Export Excel</a>
                 </div>
             </div>
@@ -120,17 +122,19 @@
                             <td class="px-4 py-2">{{ $customer->nonaktif_sejak ?? '-' }}</td>
                             <td class="px-4 py-2">{{ $customer->Others }}</td>
                             <td class="px-4 py-2 space-x-2">
-                                <form action="{{ route('customer.destroy', $customer->id) }}" method="POST" onsubmit="return confirm('Yakin ingin hapus data ini?')" class="inline-block">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">Hapus</button>
-                                </form>
+                                @if(Auth::user()->role !== 'viewer')
+                                    <form action="{{ route('customer.destroy', $customer->id) }}" method="POST" onsubmit="return confirm('Yakin ingin hapus data ini?')" class="inline-block">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">Hapus</button>
+                                    </form>
 
-                                @if ($customer->status != 'nonaktif')
-                                <form action="{{ route('customer.deactivate', $customer->id) }}" method="POST" onsubmit="return confirm('Nonaktifkan customer ini?')" class="inline-block">
-                                    @csrf
-                                    <button type="submit" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">Nonaktif</button>
-                                </form>
+                                    @if ($customer->status != 'nonaktif')
+                                    <form action="{{ route('customer.deactivate', $customer->id) }}" method="POST" onsubmit="return confirm('Nonaktifkan customer ini?')" class="inline-block">
+                                        @csrf
+                                        <button type="submit" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">Nonaktif</button>
+                                    </form>
+                                    @endif
                                 @endif
                             </td>
                         </tr>

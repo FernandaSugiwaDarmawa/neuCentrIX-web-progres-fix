@@ -49,6 +49,12 @@
                     'others' => 'Others',
                     'am_telkom' => 'AM Telkom',
                 ];
+
+                $lokasiOptions = [
+                    'NCX Medan','NCX Batam','NCX Pekanbaru','NCX Palembang','NCX Aceh','NCX Lampung','NCX Meruya','NCX Karet',
+                    'NCX Jatinegara','NCX Lembong','NCX Candi','NCX Kotabaru','NCX Gubeng','NCX Kebalen','NCX Kaliasem','NCX Batuampar',
+                    'NCX Ulin','NCX Mattoangin','NCX Paniki','NCX Pontianak','NCX Malang','NCX Pugeran','NCX Cirebon','NCX Sepaku'
+                ];
             @endphp
 
             @foreach($fields as $name => $label)
@@ -56,13 +62,23 @@
                     <label for="{{ $name }}" class="block font-semibold text-gray-700 mb-1">
                         {{ $label }}
                     </label>
-                    <input 
-                        type="{{ $name === 'tanggal_aktivasi' ? 'date' : 'text' }}" 
-                        name="{{ $name }}" 
-                        id="{{ $name }}" 
-                        value="{{ old($name) }}" 
-                        class="w-full rounded border border-gray-400 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 p-2"
-                    >
+
+                    @if($name === 'lokasi')
+                        <select name="lokasi" id="lokasi" class="w-full rounded border border-gray-400 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 p-2">
+                            <option value="">-- Pilih Lokasi --</option>
+                            @foreach($lokasiOptions as $option)
+                                <option value="{{ $option }}" {{ old('lokasi') == $option ? 'selected' : '' }}>{{ $option }}</option>
+                            @endforeach
+                        </select>
+                    @else
+                        <input 
+                            type="{{ $name === 'tanggal_aktivasi' ? 'date' : 'text' }}" 
+                            name="{{ $name }}" 
+                            id="{{ $name }}" 
+                            value="{{ old($name) }}" 
+                            class="w-full rounded border border-gray-400 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 p-2"
+                        >
+                    @endif
                 </div>
             @endforeach
 

@@ -9,7 +9,7 @@
 </head>
 <body class="bg-white">
     <div class="py-6 px-4 bg-red-600 shadow-md flex justify-between items-center">
-        <h1 class="text-xl font-bold text-white">Portal Pelanggan Mainvest</h1>
+        <h1 class="text-xl font-bold text-white">Portal Pelanggan Manivest</h1>
         <a href="/dashboard" class="text-white text-sm font-semibold hover:underline">Dashboard</a>
     </div>
 
@@ -59,8 +59,9 @@
                                 <div>
                                     <label for="role" class="block text-sm font-medium text-gray-700">Pilih Role</label>
                                     <select name="role" id="role" required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" onchange="toggleSiteDropdown()">
-                                    <option value="site">User</option>
+                                        <option value="site">User</option>
                                         <option value="super_user">Super User</option>
+                                        <option value="viewer">Viewer</option>
                                     </select>
                                     @error('role')
                                         <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -97,8 +98,8 @@
         function toggleSiteDropdown() {
             const role = document.getElementById('role')?.value;
             const siteWrapper = document.getElementById('site-wrapper');
-            if (role === 'super_user') {
-                siteWrapper.style.display = 'none';
+            if (role === 'viewer') {
+                siteWrapper.style.display = 'none'; // Hiding the site dropdown for viewer role
             } else {
                 siteWrapper.style.display = 'block';
             }

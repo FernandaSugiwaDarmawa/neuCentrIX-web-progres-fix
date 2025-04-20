@@ -21,7 +21,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8|confirmed',
-            'role' => 'required|in:super_user,site',
+            'role' => 'required|in:super_user,site,viewer',
             'site_id' => 'nullable|exists:sites,id',
         ]);
 

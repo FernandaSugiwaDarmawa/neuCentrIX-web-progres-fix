@@ -12,10 +12,10 @@ class CustomerController extends Controller
 {
     public function index()
     {
-        if (auth()->user()->role === 'super_user') {
-            $customers = Customer::all();
+        if (auth()->user()->role === 'super_user' || auth()->user()->role === 'viewer') {
+            $customers = Customer::all(); // viewer dan super_user lihat semua data
         } else {
-            $customers = Customer::where('site_id', auth()->user()->site_id)->get();
+            $customers = Customer::where('site_id', auth()->user()->site_id)->get(); // site hanya lihat data sendiri
         }
 
         return view('dashboard', compact('customers'));
@@ -28,6 +28,10 @@ class CustomerController extends Controller
 
     public function store(Request $request)
     {
+        if (auth()->user()->role === 'viewer') {
+            return abort(403, 'Viewer tidak diizinkan menambah data');
+        }
+
         $validated = $request->validate([
             'label_rack' => 'required',
             'no_fisik_rack' => 'required',
@@ -61,12 +65,20 @@ class CustomerController extends Controller
 
     public function destroy($id)
     {
+        if (auth()->user()->role === 'viewer') {
+            return abort(403, 'Viewer tidak diizinkan menghapus data');
+        }
+
         Customer::findOrFail($id)->delete();
         return back()->with('success', 'Data berhasil dihapus!');
     }
 
     public function nonaktifkan($id)
     {
+        if (auth()->user()->role === 'viewer') {
+            return abort(403, 'Viewer tidak diizinkan menonaktifkan data');
+        }
+
         $customer = Customer::findOrFail($id);
 
         if ($customer->status === 'nonaktif') {
